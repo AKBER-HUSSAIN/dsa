@@ -16,20 +16,24 @@ class Solution {
         for (int i = n - 1; i >= 0; i--) {
             for (int j = n - 1; j >= 0; j--) {
 
-                if (board.get(i).charAt(j) == 'X') continue;
-                if (i == n - 1 && j == n - 1) continue;
+                if (board.get(i).charAt(j) == 'X')
+                    continue;
+                if (i == n - 1 && j == n - 1)
+                    continue;
 
                 int best = -1;
                 long cnt = 0;
 
-                int[][] dirs = {{1,0},{0,1},{1,1}};
+                int[][] dirs = { { 1, 0 }, { 0, 1 }, { 1, 1 } };
 
                 for (int[] d : dirs) {
                     int ni = i + d[0];
                     int nj = j + d[1];
 
-                    if (ni >= n || nj >= n) continue;
-                    if (score[ni][nj] == -1) continue;
+                    if (ni >= n || nj >= n)
+                        continue;
+                    if (score[ni][nj] == -1)
+                        continue;
 
                     if (score[ni][nj] > best) {
                         best = score[ni][nj];
@@ -39,18 +43,20 @@ class Solution {
                     }
                 }
 
-                if (best == -1) continue;
+                if (best == -1)
+                    continue;
 
                 char c = board.get(i).charAt(j);
                 int val = (c == 'E' || c == 'S') ? 0 : c - '0';
 
                 score[i][j] = best + val;
-                ways[i][j] = (int)(cnt % MOD);
+                ways[i][j] = (int) (cnt % MOD);
             }
         }
 
-        if (ways[0][0] == 0) return new int[]{0, 0};
+        if (ways[0][0] == 0)
+            return new int[] { 0, 0 };
 
-        return new int[]{score[0][0], ways[0][0]};
+        return new int[] { score[0][0], ways[0][0] };
     }
 }
