@@ -1,24 +1,26 @@
-import java.util.concurrent.Semaphore;
-
 class Foo {
-    private Semaphore sem1 = new Semaphore(0);
-    private Semaphore sem2 = new Semaphore(0);
+    boolean one;
+    boolean two;
+    public Foo() {
+        one = false;
+        two = false;
+    }
 
-    public Foo() {}
-
-    public void first(Runnable printFirst) throws InterruptedException {
+    public synchronized void first(Runnable printFirst) throws InterruptedException {
         printFirst.run();
-        sem1.release();
+        one = true;
+        notifyAll();
     }
 
-    public void second(Runnable printSecond) throws InterruptedException {
-        sem1.acquire();
+    public synchronized void second(Runnable printSecond) throws InterruptedException {
+        while(!one) wait();
         printSecond.run();
-        sem2.release();
+        two = true;
+        notifyAll();
     }
 
-    public void third(Runnable printThird) throws InterruptedException {
-        sem2.acquire();
+    public synchronized void third(Runnable printThird) throws InterruptedException {
+        while(!two) wait();
         printThird.run();
     }
 }
