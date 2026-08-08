@@ -1,35 +1,68 @@
 class Solution {
     public int[] validSequence(String word1, String word2) {
-        int n = word1.length();
-        int m = word2.length();
 
-        int[] dp = new int[n + 1];
+        char[] s = word1.toCharArray();
+        char[] t = word2.toCharArray();
+
+        int n = s.length;
+        int m = t.length;
+
+        int[] suffix = new int[n + 1];
+
         int j = m - 1;
 
         for (int i = n - 1; i >= 0; i--) {
-            dp[i] = dp[i + 1];
-            if (j >= 0 && word1.charAt(i) == word2.charAt(j)) {
-                dp[i]++;
+
+            if (j >= 0 && s[i] == t[j]) {
+                suffix[i] = suffix[i + 1] + 1;
                 j--;
+            } else {
+                suffix[i] = suffix[i + 1];
             }
         }
 
         int[] ans = new int[m];
-        int idx = 0;
-        boolean changed = false;
+
+        int i = 0;
         j = 0;
 
-        for (int i = 0; i < n && j < m; i++) {
-            if (word1.charAt(i) == word2.charAt(j)) {
-                ans[idx++] = i;
+        while (i < n && j < m) {
+
+            if (s[i] == t[j]) {
+
+                ans[j] = i;
                 j++;
-            } else if (!changed && dp[i + 1] >= m - j - 1) {
-                ans[idx++] = i;
-                j++;
-                changed = true;
+
+            } else {
+
+                if (suffix[i + 1] >= m - j - 1) {
+
+                    ans[j] = i;
+                    j++;
+                    i++;
+                    break;
+                }
             }
+
+            i++;
         }
 
-        return j == m ? ans : new int[0];
+        if (j < m && i == n)
+            return new int[0];
+
+        while (i < n && j < m) {
+
+            if (s[i] == t[j]) {
+                ans[j] = i;
+                j++;
+            }
+
+            i++;
+        }
+
+        if (j != m)
+            return new int[0];
+
+        return ans;
     }
 }
