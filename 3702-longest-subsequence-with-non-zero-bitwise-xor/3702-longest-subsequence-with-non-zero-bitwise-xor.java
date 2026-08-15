@@ -13,12 +13,12 @@ class Solution {
             }
         }
 
-        // Case 1
+
         if (xor != 0) {
             return n;
         }
 
-        // Case 2 and 3
+
         if (zeroCount == n) {
             return 0;
         }
