@@ -43,9 +43,4 @@ class Solution {
         if(!option1 && !option2) return -1;
         return Math.max(nums[0], nums[n-1]);
     }
-
-    // Intuition: x can only appear 1 time in subarrays of size k, if:
-    // - It's at index 0 or index n-1 AND only appears once
-    // - k == n
-    // - k == 1 -> Find maximum single freq
 }
