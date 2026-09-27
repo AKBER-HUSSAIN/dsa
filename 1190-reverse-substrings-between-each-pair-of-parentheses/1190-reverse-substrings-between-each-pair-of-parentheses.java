@@ -17,35 +17,76 @@
 // }
 
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-
 class Solution {
     public String reverseParentheses(String s) {
-        Deque<Integer> stack = new ArrayDeque<>();
-        StringBuilder sb = new StringBuilder();
 
-        for (char c : s.toCharArray()) {
-            if (c == '(') {
-                stack.push(sb.length());
-            } else if (c == ')') {
-                int start = stack.pop();
-                reverse(sb, start, sb.length() - 1);
-            } else {
-                sb.append(c);
+        int n = s.length();
+        Deque<Integer> stk = new ArrayDeque<>();
+        int[] pair = new int[n];
+
+        for(int i=0; i<n; i++){
+            char ch = s.charAt(i);
+            if(ch == '('){
+                stk.push(i);
+            }else if(ch == ')'){
+                int open = stk.pop();
+                pair[open] = i;
+                pair[i] = open;
             }
         }
 
-        return sb.toString();
-    }
+        StringBuilder sb = new StringBuilder();
+        int direction = 1;
 
-    private void reverse(StringBuilder sb, int start, int end) {
-        while (start < end) {
-            char temp = sb.charAt(start);
-            sb.setCharAt(start, sb.charAt(end));
-            sb.setCharAt(end, temp);
-            start++;
-            end--;
+        for(int i=0; i<n; i += direction){
+            
+            char ch = s.charAt(i);
+
+            if(ch == '(' || ch == ')'){
+                i = pair[i];
+                direction = -direction;
+            }else{
+                sb.append(ch);
+            }
+
         }
+
+        return sb.toString();
+
+
+
+
+        
+
+
+        
+
+        // Deque<Integer> stk = new ArrayDeque<>();
+        // StringBuilder sb = new StringBuilder();
+
+        // for(int i=0;i<s.length();i++){
+        //     char ch = s.charAt(i);
+        //     if(ch == ')'){
+        //         int popped = stk.pop();
+        //         int end = sb.length() - 1;
+
+        //         // Reverse only the content inside parentheses
+        //         while (popped < end) {
+        //             char temp = sb.charAt(popped);
+        //             sb.setCharAt(popped, sb.charAt(end));
+        //             sb.setCharAt(end, temp);
+
+        //             popped++;
+        //             end--;
+        //         }
+        //     } else if(ch == '(') {
+        //         stk.push(sb.length());
+        //     } else{
+        //         sb.append(ch);
+        //     }
+        // }
+
+        // return sb.toString();
+        
     }
 }
