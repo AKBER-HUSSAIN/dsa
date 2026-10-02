@@ -23,27 +23,24 @@
 
 class Solution {
     public List<String> generateParenthesis(int n) {
-        List<String> ans = new ArrayList<>();
-        StringBuilder sb = new StringBuilder();
-        dfs(0,0,n,ans,sb);
+        List<String> ans  = new ArrayList<>();
+        solve(n, ans, 0, 0, "");
         return ans;
     }
-
-    void dfs(int open,int closed,int n,List<String> ans,StringBuilder sb){
-        if(open==n && closed==n){
-            String s = sb.toString();
-            ans.add(s);
+    public static void solve(int n, List<String> ans, int open, int close, String cans){
+        if(cans.length()==2*n){
+            ans.add(cans);
             return;
         }
+
         if(open<n){
-            sb.append('(');
-            dfs(open+1,closed,n,ans,sb);
-            sb.deleteCharAt(sb.length()-1);
+            solve(n, ans, open+1, close, cans+"(" );
         }
-        if(open>closed){
-            sb.append(')');
-            dfs(open,closed+1,n,ans,sb);
-            sb.deleteCharAt(sb.length()-1);
+
+        if(close<open){
+            solve(n, ans, open, close+1, cans+")");
         }
+
+
     }
 }
