@@ -21,11 +21,8 @@ class Solution {
                 foundValidLevel = true;
             }
 
-            // If we found valid strings at the current depth level, 
-            // do not generate deeper states (ensures minimum removals)
             if (foundValidLevel) continue;
 
-            // Generate all possible states by removing one parenthesis at a time
             for (int i = 0; i < current.length(); i++) {
                 char ch = current.charAt(i);
                 if (ch != '(' && ch != ')') continue;
